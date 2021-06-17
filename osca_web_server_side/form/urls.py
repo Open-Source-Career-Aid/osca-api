@@ -3,5 +3,5 @@ from django.urls import path
 from . import views,models
 
 urlpatterns = [
-    path("coll", models.coll,name="collect")
+    path("add-new-skill/", views.post_skill,name="add new skill"),
 ]
