@@ -1,0 +1,1 @@
+web: gunicorn osca_web_server_side.wsgi --log-file -
