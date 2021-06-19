@@ -41,7 +41,7 @@ class User(models.Model):
     organizationName = models.CharField(max_length=50, blank=True)
     branchName = models.CharField(max_length=50, blank=True)
     skill = models.CharField(max_length=50, blank=True)
-    graduatingYear = models.CharField(max_length=5, blank=True)
+    graduatingYear = models.CharField(max_length=12, blank=True)
     prerequisites = models.ManyToManyField(Prerequisite, related_name="prerequisites", blank=True)
     tags = models.ManyToManyField(Tag, related_name="tags", blank=True)
     detail = models.ManyToManyField(Topic, related_name="topics_skill", blank=True)
