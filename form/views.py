@@ -20,10 +20,23 @@ def post_skill(request):
         organizationName=data['organizationName']
         branchName=data['branchName']
         skill=data['skill']
+        graduatingYear=data['graduatingYear']
+        prerequisites=data['prerequisites']
 
-
-        user = User(name=name, branchName=branchName, organizationName=organizationName, skill=skill)
+        user = User(name=name, branchName=branchName, organizationName=organizationName, skill=skill,graduatingYear=graduatingYear)
         user.save()
+        for tag in data['tags']:
+            tagObj = Tag(value=tag)
+            tagObj.save()
+            user.tags.add(tagObj)
+            user.save()
+
+        for prereq in data['prerequisites']:
+            preObj = Prerequisite(value=prereq)
+            preObj.save()
+            user.prerequisites.add(preObj)
+            user.save()
+            
         for x in data['detail']:
             val = x['value']
             top = Topic(value = val)
