@@ -16,6 +16,11 @@ class TopicSerializer(serializers.ModelSerializer):
         model = Topic
         fields='__all__'
 
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill
+        fields='__all__'
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

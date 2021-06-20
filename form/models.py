@@ -1,6 +1,17 @@
 from django.db import models
 
 # Create your models here.
+class Tag(models.Model):
+    value = models.CharField(max_length=50,blank=True)
+    
+    def __str__(self):
+        return self.value
+
+class Prerequisite(models.Model):
+    value = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        return self.value
 
 class Resource(models.Model):
     value = models.TextField(blank=True);
@@ -24,27 +35,23 @@ class Topic(models.Model):
     def __str__(self):
         return self.value
 
-class Tag(models.Model):
-    value = models.CharField(max_length=50,blank=True)
-    
-    def __str__(self):
-        return self.value
-
-class Prerequisite(models.Model):
-    value = models.CharField(max_length=50, blank=True)
-
-    def __str__(self):
-        return self.value
-
 class User(models.Model):
     name = models.CharField(max_length=50, blank=True)
-    organizationName = models.CharField(max_length=50, blank=True)
-    branchName = models.CharField(max_length=50, blank=True)
-    skill = models.CharField(max_length=50, blank=True)
-    graduatingYear = models.CharField(max_length=12, blank=True)
-    prerequisites = models.ManyToManyField(Prerequisite, related_name="prerequisites", blank=True)
-    tags = models.ManyToManyField(Tag, related_name="tags", blank=True)
-    detail = models.ManyToManyField(Topic, related_name="topics_skill", blank=True)
+    organization_name = models.CharField(max_length=50, blank=True)
+    branch_name = models.CharField(max_length=50, blank=True)
+    program_duration = models.CharField(max_length=12, blank=True)
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
+
+
+class Skill(models.Model):
+    contributed_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    skill = models.CharField(max_length=50, blank=True)
+    prerequisites = models.ManyToManyField(Prerequisite, related_name="all_skills_with_this_prerequisite", blank=True)
+    tags = models.ManyToManyField(Tag, related_name="all_skills_with_this_tag", blank=True)
+    detail = models.ManyToManyField(Topic, related_name="all_skills_with_this_topic", blank=True)
+
+    def __str__(self):
+        return self.skill

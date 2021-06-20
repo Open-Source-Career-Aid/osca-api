@@ -10,32 +10,35 @@ from .serializers import *
 @api_view(['GET', 'POST'])
 def post_skill(request):
     if request.method == 'GET':
-        users = User.objects.all()
-        serialized_data = UserSerializer(users, many=True)
+        skills = Skill.objects.all()
+        serialized_data = SkillSerializer(skills, many=True)
         return Response(serialized_data.data)
     elif request.method == 'POST':
         data = request.data
 
         name= data['name']
-        organizationName=data['organizationName']
-        branchName=data['branchName']
-        skill=data['skill']
-        graduatingYear=data['graduatingYear']
-        prerequisites=data['prerequisites']
-
-        user = User(name=name, branchName=branchName, organizationName=organizationName, skill=skill,graduatingYear=graduatingYear)
+        organization_name=data['organization_name']
+        branch_name=data['branch_name']
+        program_duration=data['program_duration']
+        show=data['show']
+        user = User(name=name, branch_name=branch_name, organization_name=organization_name,program_duration=program_duration, show=show)
         user.save()
+
+        skill_name=data['skill']
+        skill = Skill(contributed_by=user, skill=skill_name)
+        skill.save()
+
         for tag in data['tags']:
             tagObj = Tag(value=tag)
             tagObj.save()
-            user.tags.add(tagObj)
-            user.save()
+            skill.tags.add(tagObj)
+            skill.save()
 
         for prereq in data['prerequisites']:
             preObj = Prerequisite(value=prereq)
             preObj.save()
-            user.prerequisites.add(preObj)
-            user.save()
+            skill.prerequisites.add(preObj)
+            skill.save()
             
         for x in data['detail']:
             val = x['value']
@@ -59,7 +62,7 @@ def post_skill(request):
                 top.subtopics.add(sub)
                 top.save()
 
-            user.detail.add(top)
-            user.save()
+            skill.detail.add(top)
+            skill.save()
         return Response(status=status.HTTP_201_CREATED)
     return Response(status = status.HTTP_400_BAD_REQUEST)

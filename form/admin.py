@@ -3,6 +3,7 @@ from .models import *
 
 # Register your models here.
 admin.site.register(User)
+admin.site.register(Skill)
 admin.site.register(Topic)
 admin.site.register(Subtopic)
 admin.site.register(Resource)
