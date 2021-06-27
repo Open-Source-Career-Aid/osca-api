@@ -55,3 +55,12 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.skill
+
+
+class Super_skill(models.Model):
+    name=models.CharField(max_length=50,blank=True)
+    sub_skills=models.ManyToManyField(Skill,related_name="super_skill")
+
+    def __str__(self):
+        return self.name
+
