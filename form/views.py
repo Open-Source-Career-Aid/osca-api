@@ -66,3 +66,8 @@ def post_skill(request):
             skill.save()
         return Response(status=status.HTTP_201_CREATED)
     return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_suggestions(request):
+    query=request.GET.get('query')
+    
