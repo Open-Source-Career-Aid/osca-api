@@ -58,6 +58,7 @@ class Skill(models.Model):
 
 
 class Super_skill(models.Model):
+    contributed_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name=models.CharField(max_length=50,blank=True)
     tags = models.ManyToManyField(Tag, related_name="super_skills_with_this_tag", blank=True)
     sub_skills=models.ManyToManyField(Skill,related_name="super_skill", blank=True)
