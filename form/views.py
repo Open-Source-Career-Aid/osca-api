@@ -111,3 +111,32 @@ def post_super_skill(request):
                 return Response(status = status.HTTP_404_NOT_FOUND)
         
         return Response(status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def get_suggestions(request):
+    query=request.GET.get('query')
+    skills=Skill.objects.filter(skill__icontains=query)
+    serialized_skill_data = SkillNameSerializer(skills, many=True)
+    super_skills=Super_skill.objects.filter(name__icontains=query)
+    serialized_superskill_data = SuperSkillNameSerializer(super_skills, many=True)
+    return Response({"skills":serialized_skill_data.data,"super_skills":serialized_superskill_data.data})
+
+
+@api_view(['GET'])
+def get_super_skill(request):
+    id=request.GET.get('id')
+    super_skills=Super_skill.objects.filter(id=id)
+    serialized_superskill_data = SuperSkillSerializer(super_skills, many=True)
+    if(serialized_superskill_data.data):
+        return Response(serialized_superskill_data.data[0])
+    return Response(status = status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_skill(request):
+    id=request.GET.get('id')
+    skills=Skill.objects.filter(id=id)
+    serialized_skill_data = SkillSerializer(skills, many=True)
+    if(serialized_skill_data.data):
+        return Response(serialized_skill_data.data[0])
+    return Response(status = status.HTTP_404_NOT_FOUND)
