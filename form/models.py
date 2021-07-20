@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+
 class Tag(models.Model):
     value = models.CharField(max_length=50,blank=True)
     
@@ -51,8 +52,8 @@ class Skill(models.Model):
     skill = models.CharField(max_length=50, blank=True)
     prerequisites = models.ManyToManyField(Prerequisite, related_name="all_skills_with_this_prerequisite", blank=True)
     tags = models.ManyToManyField(Tag, related_name="all_skills_with_this_tag", blank=True)
-    detail = models.ManyToManyField(Topic, related_name="all_skills_with_this_topic", blank=True)
-
+    topics = models.ManyToManyField(Topic, related_name="all_skills_with_this_topic", blank=True)
+    userName=models.CharField(max_length=100)
     def __str__(self):
         return self.skill
 

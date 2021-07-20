@@ -15,8 +15,7 @@ def post_skill(request):
         return Response(serialized_data.data)
     elif request.method == 'POST':
         data = request.data
-
-        name= data['name']
+        name= data['userName']
         organization_name=data['organization_name']
         branch_name=data['branch_name']
         program_duration=data['program_duration']
@@ -39,34 +38,26 @@ def post_skill(request):
                 skill.save()
 
         for prereq in data['prerequisites']:
-            preObj = Prerequisite(value=prereq)
-            preObj.save()
-            skill.prerequisites.add(preObj)
-            skill.save()
+            try:
+                pre = Prerequisite.objects.get(value=prereq)
+            except Prerequisite.DoesNotExist:
+                pre = Prerequisite(value=prereq.lower())
+                pre.save()
+            finally:
+                skill.prerequisites.add(pre)
+                skill.save()
             
-        for x in data['detail']:
-            val = x['value']
+        for topic in data['topics']:
+            val = topic['topicName']
             top = Topic(value = val)
             top.save()
-            for y in x['resources']:
-                res = Resource(value=y['value'])
+            for resource in topic['resources']:
+                res = Resource(value=resource['link'])
                 res.save()
                 top.resources.add(res)
                 top.save()
 
-            for y in x['subtopics']:
-                val = y['value']
-                sub = Subtopic(value=val)
-                sub.save()
-                for yres in y['resources']:
-                    res = Resource(value=yres['value'])
-                    res.save()
-                    sub.resources.add(res)
-                    sub.save()
-                top.subtopics.add(sub)
-                top.save()
-
-            skill.detail.add(top)
+            skill.topics.add(top)
             skill.save()
         return Response(status=status.HTTP_201_CREATED)
     return Response(status = status.HTTP_400_BAD_REQUEST)
@@ -91,10 +82,10 @@ def post_super_skill(request):
 
         super_skill_name = data['super_skill']
         super_skill = Super_skill(name=super_skill_name)
-
+        
         for tag in data['tags']:
             try:
-                tagObj = Tag.objects.get(value=tag)
+                tagObj = Tag.objects.get(value=tag['tagName'])
             except Tag.DoesNotExist:
                 tagObj = Tag(value=tag.lower())
                 tagObj.save()
@@ -102,9 +93,9 @@ def post_super_skill(request):
                 super_skill.tags.add(tagObj)
                 super_skill.save()
 
-        for sub_skill in data['sub_skills']:
+        for sub_skill in data['roadmap']:
             try:
-                skill = Skill.objects.get(skill=sub_skill)
+                skill = Skill.objects.get(skill=sub_skill['skillName'])
                 super_skill.sub_skills.add(skill)
                 super_skill.save()
             except Skill.DoesNotExist:
