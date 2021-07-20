@@ -54,17 +54,20 @@ def post_skill(request):
                 top.resources.add(res)
                 top.save()
 
-            for y in x['subtopics']:
-                val = y['value']
-                sub = Subtopic(value=val)
-                sub.save()
-                for yres in y['resources']:
-                    res = Resource(value=yres['value'])
-                    res.save()
-                    sub.resources.add(res)
+            try:
+                for y in x['subtopics']:
+                    val = y['value']
+                    sub = Subtopic(value=val)
                     sub.save()
-                top.subtopics.add(sub)
-                top.save()
+                    for yres in y['resources']:
+                        res = Resource(value=yres['value'])
+                        res.save()
+                        sub.resources.add(res)
+                        sub.save()
+                    top.subtopics.add(sub)
+                    top.save()
+            except KeyError:
+                pass
 
             skill.detail.add(top)
             skill.save()
@@ -91,7 +94,8 @@ def post_super_skill(request):
 
         super_skill_name = data['super_skill']
         super_skill = Super_skill(name=super_skill_name)
-
+        super_skill.save()
+        
         for tag in data['tags']:
             try:
                 tagObj = Tag.objects.get(value=tag)
