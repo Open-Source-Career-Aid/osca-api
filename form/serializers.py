@@ -51,3 +51,9 @@ class SuperSkillNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Super_skill
         fields = ['id','name','tag','sub_skill']
+
+class SuperSkillNameSerializer2(serializers.ModelSerializer):
+    tag = TagSerializer(source="tags",read_only=True, many=True)
+    class Meta:
+        model = Super_skill
+        fields = ['id','name','tag']
