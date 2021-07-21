@@ -150,3 +150,19 @@ def get_skill(request):
     if(serialized_skill_data.data):
         return Response(serialized_skill_data.data[0])
     return Response(status = status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def learn_skill(request):
+    search_data = request.GET.get('searchData')
+    skills = Skill.objects.filter(skill__startswith=search_data)
+    serialized_skill_data = SkillNameSerializer(skills, many=True)
+    for i in range(len(serialized_skill_data.data)):
+        serialized_skill_data.data[i].update({"is_superskill" : False})
+    super_skills = Super_skill.objects.filter(name__startswith=search_data)
+    serialized_superskill_data = SuperSkillNameSerializer2(super_skills, many=True)
+    for i in range(len(serialized_superskill_data.data)):
+        serialized_superskill_data.data[i].update({"is_superskill" : True})
+    serialized_data = serialized_skill_data.data + serialized_superskill_data.data
+    if(serialized_data):
+        return Response(serialized_data)
+    return Response(status = status.HTTP_404_NOT_FOUND)
