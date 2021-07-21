@@ -23,7 +23,7 @@ class SkillSerializer(serializers.ModelSerializer):
     prerequisite = RelationalPrerequisiteSerializer(source="prerequisites",read_only=True, many=True)
     class Meta:
         model = Skill
-        fields=('id','contributed_by','skill','tag','prerequisite','detail')
+        fields=('id','contributed_by','skill','tag','prerequisite','topics')
         depth = 2
 
 class UserSerializer(serializers.ModelSerializer):
