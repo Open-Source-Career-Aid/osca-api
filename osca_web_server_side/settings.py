@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-(@46wmg3cuhjb6@rzibypbnxa=s&su(nr=o1%go^1lz$4ui)8c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'oscaweb.herokuapp.com', '0.0.0.0']
+ALLOWED_HOSTS = ['localhost', 'oscaweb.herokuapp.com', '0.0.0.0','osca-api.herokuapp.com']
 
 
 # Application definition
