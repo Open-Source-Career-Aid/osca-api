@@ -38,10 +38,10 @@ class SuperSkillSerializer(serializers.ModelSerializer):
         depth=2
 
 class SkillNameSerializer(serializers.ModelSerializer):
-    tag = TagSerializer(source="tags",read_only=True, many=True)
     class Meta:
         model = Skill
-        fields = ['id','skill','tag']
+        fields = ['id','skill','tags']
+        depth=2
 
 class SuperSkillNameSerializer(serializers.ModelSerializer):
     tag = TagSerializer(source="tags",read_only=True, many=True)
@@ -51,7 +51,7 @@ class SuperSkillNameSerializer(serializers.ModelSerializer):
         fields = ['id','name','tag','sub_skill']
 
 class SuperSkillNameSerializer2(serializers.ModelSerializer):
-    tag = TagSerializer(source="tags",read_only=True, many=True)
     class Meta:
         model = Super_skill
-        fields = ['id','name','tag']
+        fields = ['id','name','tags']
+        depth=2
