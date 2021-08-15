@@ -127,9 +127,9 @@ def post_super_skill(request):
 def get_suggestions(request):
     query=request.GET.get('query')
     skills=Skill.objects.filter(skill__icontains=query)
-    serialized_skill_data = SkillNameSerializer(skills, many=True)
+    serialized_skill_data = SkillSerializer(skills, many=True)
     super_skills=Super_skill.objects.filter(name__icontains=query)
-    serialized_superskill_data = SuperSkillNameSerializer(super_skills, many=True)
+    serialized_superskill_data = SuperSkillSerializer(super_skills, many=True)
     return Response({"skills":serialized_skill_data.data,"super_skills":serialized_superskill_data.data})
 
 
