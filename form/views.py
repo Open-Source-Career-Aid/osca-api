@@ -31,7 +31,7 @@ def post_skill(request):
             try:
                 tagObj = Tag.objects.get(value=tag)
             except Tag.DoesNotExist:
-                tagObj = Tag(value=tag.lower())
+                tagObj = Tag.objects.create(value=tag.lower())
                 tagObj.save()
             finally:
                 skill.tags.add(tagObj)
@@ -60,7 +60,7 @@ def post_skill(request):
 
             skill.topics.add(top)
             try:
-                for y in x['subtopics']:
+                for y in topic['subtopics']:
                     val = y['value']
                     sub = Subtopic(value=val)
                     sub.save()
@@ -74,7 +74,7 @@ def post_skill(request):
             except KeyError:
                 pass
 
-            skill.detail.add(top)
+            skill.topics.add(top)
             skill.save()
         return Response(status=status.HTTP_201_CREATED)
     return Response(status = status.HTTP_400_BAD_REQUEST)
@@ -98,15 +98,15 @@ def post_super_skill(request):
         user.save()
 
         super_skill_name = data['super_skill']
-        super_skill = Super_skill(name=super_skill_name)
+        super_skill = Super_skill(name=super_skill_name,contributed_by=user)
         super_skill.save()
 
         
         for tag in data['tags']:
             try:
-                tagObj = Tag.objects.get(value=tag['tagName'])
+                tagObj = Tag.objects.get(value=tag)
             except Tag.DoesNotExist:
-                tagObj = Tag(value=tag.lower())
+                tagObj = Tag.objects.create(value=tag.lower())
                 tagObj.save()
             finally:
                 super_skill.tags.add(tagObj)
