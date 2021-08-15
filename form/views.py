@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import *
 from .serializers import *
+from json import loads
 # import json
 
 # Create your views here.
@@ -28,25 +29,23 @@ def post_skill(request):
         skill.save()
 
         for tag in data['tags']:
-            try:
-                tagObj = Tag.objects.get(tagName=tag)
-            except Tag.DoesNotExist:
+            tagObj = Tag.objects.filter(tagName=tag)
+            if not tagObj:
                 tagObj = Tag.objects.create(tagName=tag.lower())
-                tagObj.save()
-            finally:
                 skill.tags.add(tagObj)
-                skill.save()
+            else:
+                skill.tags.add(tagObj[0])
+            skill.save()
 
         for prereq in data['prerequisites']:
-            try:
-                pre = Prerequisite.objects.get(prereqName=prereq)
-            except Prerequisite.DoesNotExist:
-                pre = Prerequisite(prereqName=prereq.lower())
-                pre.save()
-            finally:
+            pre = Prerequisite.objects.filter(prereqName=prereq)
+            if not pre:
+                pre = Prerequisite.objects.create(prereqName=prereq.lower())
                 skill.prerequisites.add(pre)
-                skill.save()
-            
+            else:
+                skill.prerequisites.add(pre[0])
+            skill.save()
+
         for topic in data['topics']:
             val = topic['topicName']
             top = Topic(topicName = val)
@@ -101,24 +100,23 @@ def post_super_skill(request):
         super_skill = Super_skill(name=super_skill_name,contributed_by=user)
         super_skill.save()
 
-        
         for tag in data['tags']:
-            try:
-                tagObj = Tag.objects.get(tagName=tag)
-            except Tag.DoesNotExist:
+            tagObj = Tag.objects.filter(tagName=tag)
+            if not tagObj:
                 tagObj = Tag.objects.create(tagName=tag.lower())
-                tagObj.save()
-            finally:
                 super_skill.tags.add(tagObj)
-                super_skill.save()
+            else:
+                super_skill.tags.add(tagObj[0])
+            super_skill.save()
+
 
         for sub_skill in data['roadmap']:
-            try:
-                skill = Skill.objects.get(skill=sub_skill['skillName'])
-                super_skill.sub_skills.add(skill)
-                super_skill.save()
-            except Skill.DoesNotExist:
+            skill = Skill.objects.filter(skill=sub_skill['skillName'])
+            if not skill:
                 return Response(status = status.HTTP_404_NOT_FOUND)
+            else:
+                super_skill.sub_skills.add(skill[0])
+            super_skill.save()
         
         return Response(status=status.HTTP_201_CREATED)
 
