@@ -12,7 +12,7 @@ class Prerequisite(models.Model):
     prereqName = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
-        return self.prereqValue
+        return self.prereqName
 
 class Resource(models.Model):
     value = models.TextField(blank=True);
