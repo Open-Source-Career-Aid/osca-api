@@ -6,13 +6,13 @@ class Tag(models.Model):
     tagName = models.CharField(max_length=50,blank=True)
     
     def __str__(self):
-        return self.value
+        return self.tagName
 
 class Prerequisite(models.Model):
     prereqName = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
-        return self.value
+        return self.prereqValue
 
 class Resource(models.Model):
     value = models.TextField(blank=True);
@@ -34,7 +34,7 @@ class Topic(models.Model):
     subtopics = models.ManyToManyField(Subtopic, related_name="subtopics_topic",blank=True)
 
     def __str__(self):
-        return self.value
+        return self.topicName
 
 class User(models.Model):
     name = models.CharField(max_length=50, blank=True)
