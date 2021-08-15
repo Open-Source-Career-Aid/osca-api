@@ -4,7 +4,7 @@ from .models import *
 class TagSerializer(serializers.RelatedField):
 
      def to_representation(self, value):
-         return value.value
+         return value.tagName
 
      class Meta:
         model = Tag
@@ -18,7 +18,7 @@ class RelationalSubSkillSerializer(serializers.RelatedField):
 
 class RelationalPrerequisiteSerializer(serializers.RelatedField):
      def to_representation(self, value):
-         return value.value
+         return value.prereqName
 
      class Meta:
         model = Prerequisite

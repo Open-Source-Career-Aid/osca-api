@@ -3,13 +3,13 @@ from django.db import models
 # Create your models here.
 
 class Tag(models.Model):
-    value = models.CharField(max_length=50,blank=True)
+    tagName = models.CharField(max_length=50,blank=True)
     
     def __str__(self):
         return self.value
 
 class Prerequisite(models.Model):
-    value = models.CharField(max_length=50, blank=True)
+    prereqName = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.value
@@ -29,7 +29,7 @@ class Subtopic(models.Model):
         return self.value
 
 class Topic(models.Model):
-    value = models.TextField(blank=True)
+    topicName = models.TextField(blank=True)
     resources = models.ManyToManyField(Resource,related_name="resources_topic", blank=True)
     subtopics = models.ManyToManyField(Subtopic, related_name="subtopics_topic",blank=True)
 

@@ -29,9 +29,9 @@ def post_skill(request):
 
         for tag in data['tags']:
             try:
-                tagObj = Tag.objects.get(value=tag)
+                tagObj = Tag.objects.get(tagName=tag)
             except Tag.DoesNotExist:
-                tagObj = Tag.objects.create(value=tag.lower())
+                tagObj = Tag.objects.create(tagName=tag.lower())
                 tagObj.save()
             finally:
                 skill.tags.add(tagObj)
@@ -39,9 +39,9 @@ def post_skill(request):
 
         for prereq in data['prerequisites']:
             try:
-                pre = Prerequisite.objects.get(value=prereq)
+                pre = Prerequisite.objects.get(prereqName=prereq)
             except Prerequisite.DoesNotExist:
-                pre = Prerequisite(value=prereq.lower())
+                pre = Prerequisite(prereqName=prereq.lower())
                 pre.save()
             finally:
                 skill.prerequisites.add(pre)
@@ -49,7 +49,7 @@ def post_skill(request):
             
         for topic in data['topics']:
             val = topic['topicName']
-            top = Topic(value = val)
+            top = Topic(topicName = val)
             top.save()
             for resource in topic['resources']:
                 res = Resource(value=resource['link'])
@@ -104,9 +104,9 @@ def post_super_skill(request):
         
         for tag in data['tags']:
             try:
-                tagObj = Tag.objects.get(value=tag)
+                tagObj = Tag.objects.get(tagName=tag)
             except Tag.DoesNotExist:
-                tagObj = Tag.objects.create(value=tag.lower())
+                tagObj = Tag.objects.create(tagName=tag.lower())
                 tagObj.save()
             finally:
                 super_skill.tags.add(tagObj)
