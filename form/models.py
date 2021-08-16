@@ -15,7 +15,7 @@ class Prerequisite(models.Model):
         return self.prereqName
 
 class Resource(models.Model):
-    value = models.TextField(blank=True);
+    link = models.TextField(blank=True);
 
     def __str__(self):
         return self.value
