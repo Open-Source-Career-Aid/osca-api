@@ -51,7 +51,7 @@ def post_skill(request):
             top = Topic(topicName = val)
             top.save()
             for resource in topic['resources']:
-                res = Resource(value=resource['link'])
+                res = Resource(link=resource['link'])
                 res.save()
                 top.resources.add(res)
                 top.save()
@@ -64,7 +64,7 @@ def post_skill(request):
                     sub = Subtopic(value=val)
                     sub.save()
                     for yres in y['resources']:
-                        res = Resource(value=yres['value'])
+                        res = Resource(link=yres['value'])
                         res.save()
                         sub.resources.add(res)
                         sub.save()
