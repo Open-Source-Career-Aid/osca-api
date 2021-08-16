@@ -18,7 +18,7 @@ class Resource(models.Model):
     link = models.TextField(blank=True);
 
     def __str__(self):
-        return self.value
+        return self.link
     
 
 class Subtopic(models.Model):
