@@ -117,7 +117,17 @@ def post_super_skill(request):
             else:
                 super_skill.sub_skills.add(skill[0])
             super_skill.save()
-        
+
+        if "prerequisites" in data:
+            for prereq in data['prerequisites']:
+                pre = Prerequisite.objects.filter(prereqName=prereq)
+                if not pre:
+                    pre = Prerequisite.objects.create(prereqName=prereq.lower())
+                    super_skill.prerequisites.add(pre)
+                else:
+                    super_skill.prerequisites.add(pre[0])
+                super_skill.save()
+
         return Response(status=status.HTTP_201_CREATED)
 
 

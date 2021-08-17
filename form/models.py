@@ -63,7 +63,7 @@ class Super_skill(models.Model):
     name=models.CharField(max_length=50,blank=True)
     tags = models.ManyToManyField(Tag, related_name="super_skills_with_this_tag", blank=True)
     sub_skills=models.ManyToManyField(Skill,related_name="super_skill", blank=True)
-
+    prerequisites = models.ManyToManyField(Prerequisite, related_name="all_super_skills_with_this_prerequisite", blank=True)
     def __str__(self):
         return self.name
 
