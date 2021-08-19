@@ -21,7 +21,7 @@ def post_skill(request):
         branch_name=data['branch_name']
         program_duration=data['program_duration']
         show=data['show']
-        user = User(name=name, branch_name=branch_name, organization_name=organization_name,program_duration=program_duration, show=show)
+        user = User(userName=name, branch_name=branch_name, organization_name=organization_name,program_duration=program_duration, show=show)
         user.save()
         
         skill_name=data['skill']
@@ -93,7 +93,7 @@ def post_super_skill(request):
         program_duration=data['program_duration']
         show = data['show']
 
-        user = User(name=name, branch_name=branch_name, organization_name=organization_name,program_duration=program_duration,show=show)
+        user = User(userName=name, branch_name=branch_name, organization_name=organization_name,program_duration=program_duration,show=show)
         user.save()
 
         super_skill_name = data['super_skill']

@@ -37,14 +37,14 @@ class Topic(models.Model):
         return self.topicName
 
 class User(models.Model):
-    name = models.CharField(max_length=50, blank=True)
+    userName = models.CharField(max_length=50, blank=True)
     organization_name = models.CharField(max_length=50, blank=True)
     branch_name = models.CharField(max_length=50, blank=True)
     program_duration = models.CharField(max_length=12, blank=True)
     show = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        return self.userName
 
 
 class Skill(models.Model):
@@ -53,7 +53,6 @@ class Skill(models.Model):
     prerequisites = models.ManyToManyField(Prerequisite, related_name="all_skills_with_this_prerequisite", blank=True)
     tags = models.ManyToManyField(Tag, related_name="all_skills_with_this_tag", blank=True)
     topics = models.ManyToManyField(Topic, related_name="all_skills_with_this_topic", blank=True)
-    userName=models.CharField(max_length=100)
     def __str__(self):
         return self.skill
 
