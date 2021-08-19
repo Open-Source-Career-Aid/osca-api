@@ -35,7 +35,7 @@ class SuperSkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Super_skill
         fields = '__all__'
-        depth=2
+        depth=3
 
 class SkillNameSerializer(serializers.ModelSerializer):
     class Meta:
