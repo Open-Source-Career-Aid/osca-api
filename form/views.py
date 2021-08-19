@@ -87,7 +87,7 @@ def post_super_skill(request):
     if request.method == 'POST':
         data = request.data
 
-        name= data['name']
+        name= data['userName']
         organization_name=data['organization_name']
         branch_name=data['branch_name']
         program_duration=data['program_duration']
