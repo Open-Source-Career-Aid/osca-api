@@ -29,18 +29,18 @@ def post_skill(request):
         skill.save()
 
         for tag in data['tags']:
-            tagObj = Tag.objects.filter(tagName=tag)
+            tagObj = Tag.objects.filter(tagName=tag['tagName'])
             if not tagObj:
-                tagObj = Tag.objects.create(tagName=tag.lower())
+                tagObj = Tag.objects.create(tagName=tag['tagName'].lower())
                 skill.tags.add(tagObj)
             else:
                 skill.tags.add(tagObj[0])
             skill.save()
 
         for prereq in data['prerequisites']:
-            pre = Prerequisite.objects.filter(prereqName=prereq)
+            pre = Prerequisite.objects.filter(prereqName=prereq['prereqName'])
             if not pre:
-                pre = Prerequisite.objects.create(prereqName=prereq.lower())
+                pre = Prerequisite.objects.create(prereqName=prereq['prereqName'].lower())
                 skill.prerequisites.add(pre)
             else:
                 skill.prerequisites.add(pre[0])
@@ -101,9 +101,9 @@ def post_super_skill(request):
         super_skill.save()
 
         for tag in data['tags']:
-            tagObj = Tag.objects.filter(tagName=tag)
+            tagObj = Tag.objects.filter(tagName=tag['tagName'])
             if not tagObj:
-                tagObj = Tag.objects.create(tagName=tag.lower())
+                tagObj = Tag.objects.create(tagName=tag['tagName'].lower())
                 super_skill.tags.add(tagObj)
             else:
                 super_skill.tags.add(tagObj[0])
@@ -120,9 +120,9 @@ def post_super_skill(request):
 
         if "prerequisites" in data:
             for prereq in data['prerequisites']:
-                pre = Prerequisite.objects.filter(prereqName=prereq)
+                pre = Prerequisite.objects.filter(prereqName=prereq['prereqName'])
                 if not pre:
-                    pre = Prerequisite.objects.create(prereqName=prereq.lower())
+                    pre = Prerequisite.objects.create(prereqName=prereq['prereqName'].lower())
                     super_skill.prerequisites.add(pre)
                 else:
                     super_skill.prerequisites.add(pre[0])
