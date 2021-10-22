@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'form',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
 ]
 
 REST_FRAMEWORK = {
