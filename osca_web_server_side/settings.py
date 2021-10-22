@@ -92,36 +92,66 @@ WSGI_APPLICATION = 'osca_web_server_side.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('DEFAULT_NAME'),
+#         'USER':'',
+#         'PASSWORD' : '',
+#         'HOST' : 'localhost',
+#         'PORT':''
+#     },
+#     'temp': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('TEMP_NAME'),
+#         'USER': '',
+#         'PASSWORD' : '',
+#         'HOST' : 'localhost',
+#         'PORT':''
+#     },
+#     'edits': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('EDIT_NAME'),
+#         'USER': '',
+#         'PASSWORD' : '',
+#         'HOST' : 'localhost',
+#         'PORT':''
+#     }
+# }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+try:
+    from . import local_settings
+    DATABASES=local_settings.DATABASES
+except ImportError as e:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DEFAULT_NAME'),
-        'USER': os.getenv('DBUSER'),
-        'PASSWORD' : os.getenv('PASSWORD'),
+        'USER':'',
+        'PASSWORD' : '',
         'HOST' : 'localhost',
         'PORT':''
     },
     'temp': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('TEMP_NAME'),
-        'USER': os.getenv('DBUSER'),
-        'PASSWORD' : os.getenv('PASSWORD'),
+        'USER': '',
+        'PASSWORD' : '',
         'HOST' : 'localhost',
         'PORT':''
     },
     'edits': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('EDIT_NAME'),
-        'USER': os.getenv('DBUSER'),
-        'PASSWORD' : os.getenv('PASSWORD'),
+        'USER': '',
+        'PASSWORD' : '',
         'HOST' : 'localhost',
         'PORT':''
     }
 }
-
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
-DATABASES['temp'].update(db_from_env)
+    import django_heroku
+    django_heroku.settings(locals(), databases=False)
 
 
 # Password validation

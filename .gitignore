@@ -2,7 +2,7 @@
 *.pot
 *.pyc
 __pycache__/
-local_settings.py
+osca_web_server_side/local_settings.py
 db.sqlite3
 .venv/
 .vscode
