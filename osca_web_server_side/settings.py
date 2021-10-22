@@ -128,26 +128,26 @@ except ImportError as e:
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DEFAULT_NAME'),
-        'USER': os.getenv('DBUSER'),
-        'PASSWORD' : os.getenv('PASSWORD'),
+        'USER':'',
+        'PASSWORD' : '',
         'HOST' : 'localhost',
-        'PORT':''
+        'PORT':'5432'
     },
     'temp': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('TEMP_NAME'),
-        'USER': os.getenv('DBUSER'),
-        'PASSWORD' : os.getenv('PASSWORD'),
+        'USER': '',
+        'PASSWORD' : '',
         'HOST' : 'localhost',
-        'PORT':''
+        'PORT':'5432'
     },
     'edits': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('EDIT_NAME'),
-        'USER': os.getenv('DBUSER'),
-        'PASSWORD' : os.getenv('PASSWORD'),
+        'USER': '',
+        'PASSWORD' : '',
         'HOST' : 'localhost',
-        'PORT':''
+        'PORT':'5432'
     }
 }
     import django_heroku
