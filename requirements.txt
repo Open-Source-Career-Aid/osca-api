@@ -11,3 +11,4 @@ sqlparse==0.4.1
 whitenoise==5.2.0
 yapf==0.31.0
 django-rest-auth==0.9.5
+django-heroku==0.3.1 
