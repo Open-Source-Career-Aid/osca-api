@@ -128,25 +128,25 @@ except ImportError as e:
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('DEFAULT_NAME'),
-        'USER':'',
-        'PASSWORD' : '',
-        'HOST' : 'localhost',
+        'USER':os.getenv('DEFAULT_USER'),
+        'PASSWORD' : os.getenv('DEFAULT_PASS'),
+        'HOST' : os.getenv('DEFAULT_HOST'),
         'PORT':'5432'
     },
     'temp': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('TEMP_NAME'),
-        'USER': '',
-        'PASSWORD' : '',
-        'HOST' : 'localhost',
+        'USER':os.getenv('TEMP_USER'),
+        'PASSWORD' : os.getenv('TEMP_PASS'),
+        'HOST' : os.getenv('TEMP_HOST'),
         'PORT':'5432'
     },
     'edits': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('EDIT_NAME'),
-        'USER': '',
-        'PASSWORD' : '',
-        'HOST' : 'localhost',
+        'USER':os.getenv('EDIT_USER'),
+        'PASSWORD' : os.getenv('EDIT_PASS'),
+        'HOST' : os.getenv('EDIT_HOST'),
         'PORT':'5432'
     }
 }
