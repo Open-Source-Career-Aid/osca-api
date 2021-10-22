@@ -46,7 +46,16 @@ INSTALLED_APPS = [
     'corsheaders',
     'form',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -87,7 +96,23 @@ WSGI_APPLICATION = 'osca_web_server_side.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('NAME'),
+        'NAME': os.getenv('DEFAULT_NAME'),
+        'USER': os.getenv('DBUSER'),
+        'PASSWORD' : os.getenv('PASSWORD'),
+        'HOST' : 'localhost',
+        'PORT':''
+    },
+    'temp': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('TEMP_NAME'),
+        'USER': os.getenv('DBUSER'),
+        'PASSWORD' : os.getenv('PASSWORD'),
+        'HOST' : 'localhost',
+        'PORT':''
+    },
+    'edits': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('EDIT_NAME'),
         'USER': os.getenv('DBUSER'),
         'PASSWORD' : os.getenv('PASSWORD'),
         'HOST' : 'localhost',
@@ -97,6 +122,7 @@ DATABASES = {
 
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
+DATABASES['temp'].update(db_from_env)
 
 
 # Password validation
