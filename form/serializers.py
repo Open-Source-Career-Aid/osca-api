@@ -28,7 +28,7 @@ class SkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
         fields='__all__'
-        depth = 2
+        depth = 4
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
