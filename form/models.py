@@ -44,6 +44,14 @@ class Topic(models.Model):
         return self.topicName
 
 
+class Level(models.Model):
+    levelName = models.TextField(blank=True)
+    topics = models.ManyToManyField(
+        Topic,related_name="topics_level", blank=True)
+    
+    def __str__(self):
+        return self.levelName
+
 class User(models.Model):
     userName = models.CharField(max_length=50, blank=True)
     organization_name = models.CharField(max_length=50, blank=True)
@@ -62,8 +70,8 @@ class Skill(models.Model):
         Prerequisite, related_name="all_skills_with_this_prerequisite", blank=True)
     tags = models.ManyToManyField(
         Tag, related_name="all_skills_with_this_tag", blank=True)
-    topics = models.ManyToManyField(
-        Topic, related_name="all_skills_with_this_topic", blank=True)
+    levels = models.ManyToManyField(
+        Level, related_name="all_skills_with_this_level", blank=True)
 
     def __str__(self):
         return self.skill
