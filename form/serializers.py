@@ -18,6 +18,11 @@ class TopicSerializer(serializers.ModelSerializer):
         model = Topic
         fields='__all__'
 
+class LevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Level
+        fields='__all__'
+
 class SkillSerializer(serializers.ModelSerializer):
     prerequisite = RelationalPrerequisiteSerializer(source="prerequisites",read_only=True, many=True)
     class Meta:

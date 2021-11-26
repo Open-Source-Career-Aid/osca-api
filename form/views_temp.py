@@ -44,33 +44,40 @@ def post_skill_temp(request):
             skill.prerequisites.add(pre[0])
         skill.save(using='temp')
 
-    for topic in data['topics']:
-        val = topic['topicName']
-        top = Topic(topicName=val)
-        top.save(using='temp')
-        for resource in topic['resources']:
-            res = Resource(link=resource['link'])
-            res.save(using='temp')
-            top.resources.add(res)
+    for level in data['levels']:
+        val = level['levelName']
+        lev = Level(levelName=val)
+        lev.save(using='temp')
+
+        for topic in level['topics']:
+            val = topic['topicName']
+            top = Topic(topicName=val)
             top.save(using='temp')
-
-        skill.topics.add(top)
-        try:
-            for y in topic['subtopics']:
-                val = y['value']
-                sub = Subtopic(value=val)
-                sub.save(using='temp')
-                for yres in y['resources']:
-                    res = Resource(link=yres['value'])
-                    res.save(using='temp')
-                    sub.resources.add(res)
-                    sub.save(using='temp')
-                top.subtopics.add(sub)
+            for resource in topic['resources']:
+                res = Resource(link=resource['link'])
+                res.save(using='temp')
+                top.resources.add(res)
                 top.save(using='temp')
-        except KeyError:
-            pass
 
-        skill.topics.add(top)
+            lev.topics.add(top)
+            try:
+                for y in topic['subtopics']:
+                    val = y['value']
+                    sub = Subtopic(value=val)
+                    sub.save(using='temp')
+                    for yres in y['resources']:
+                        res = Resource(link=yres['value'])
+                        res.save(using='temp')
+                        sub.resources.add(res)
+                        sub.save(using='temp')
+                    top.subtopics.add(sub)
+                    top.save(using='temp')
+            except KeyError:
+                pass
+
+            lev.topics.add(top)
+            lev.save(using='temp')
+        skill.levels.add(lev)
         skill.save(using='temp')
     return Response(status=status.HTTP_201_CREATED)
 

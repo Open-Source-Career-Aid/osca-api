@@ -49,33 +49,40 @@ def post_skill(request):
             skill.prerequisites.add(pre[0])
         skill.save()
 
-    for topic in data['topics']:
-        val = topic['topicName']
-        top = Topic(topicName=val)
-        top.save()
-        for resource in topic['resources']:
-            res = Resource(link=resource['link'])
-            res.save()
-            top.resources.add(res)
+    for level in data['levels']:
+        val = level['levelName']
+        lev = Level(levelName=val)
+        lev.save()
+        
+        for topic in level['topics']:
+            val = topic['topicName']
+            top = Topic(topicName=val)
             top.save()
-
-        skill.topics.add(top)
-        try:
-            for y in topic['subtopics']:
-                val = y['value']
-                sub = Subtopic(value=val)
-                sub.save()
-                for yres in y['resources']:
-                    res = Resource(link=yres['value'])
-                    res.save()
-                    sub.resources.add(res)
-                    sub.save()
-                top.subtopics.add(sub)
+            for resource in topic['resources']:
+                res = Resource(link=resource['link'])
+                res.save()
+                top.resources.add(res)
                 top.save()
-        except KeyError:
-            pass
 
-        skill.topics.add(top)
+            lev.topics.add(top)
+            try:
+                for y in topic['subtopics']:
+                    val = y['value']
+                    sub = Subtopic(value=val)
+                    sub.save()
+                    for yres in y['resources']:
+                        res = Resource(link=yres['value'])
+                        res.save()
+                        sub.resources.add(res)
+                        sub.save()
+                    top.subtopics.add(sub)
+                    top.save()
+            except KeyError:
+                pass
+
+            lev.topics.add(top)
+            lev.save()
+        skill.levels.add(lev)
         skill.save()
     return Response(status=status.HTTP_201_CREATED)
 
