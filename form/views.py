@@ -58,12 +58,14 @@ def post_skill(request):
             val = topic['topicName']
             top = Topic(topicName=val)
             top.save()
-            for resource in topic['resources']:
-                res = Resource(link=resource['link'])
-                res.save()
-                top.resources.add(res)
-                top.save()
-
+            try:
+                for resource in topic['resources']:
+                    res = Resource(link=resource['link'])
+                    res.save()
+                    top.resources.add(res)
+                    top.save()
+            except KeyError:
+                pass    
             lev.topics.add(top)
             try:
                 for y in topic['subtopics']:
