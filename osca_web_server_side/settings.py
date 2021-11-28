@@ -148,7 +148,15 @@ except ImportError as e:
         'PASSWORD' : os.getenv('EDIT_PASS'),
         'HOST' : os.getenv('EDIT_HOST'),
         'PORT':'5432'
-    }
+    },
+    'users': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('USER_NAME'),
+        'USER':os.getenv('USER_USER'),
+        'PASSWORD' : os.getenv('USER_PASS'),
+        'HOST' : os.getenv('USER_HOST'),
+        'PORT':'5432'
+    },
 }
     import django_heroku
     django_heroku.settings(locals(), databases=False)

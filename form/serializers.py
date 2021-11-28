@@ -1,4 +1,5 @@
 from django.db.models import fields
+from django.db.models.fields import files
 from rest_framework import serializers
 from .models import *
 from .relational_serializers import *
@@ -60,3 +61,9 @@ class SuperSkillNameSerializer2(serializers.ModelSerializer):
         model = Super_skill
         fields = ['id','name','tags']
         depth=2
+
+class User_messageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_messages
+        fields = '__all__'
+        depth = 2

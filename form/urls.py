@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views,models,views_temp
+from . import views,models,views_temp,views_user
 
 urlpatterns = [
     path("get-all-skills/", views.get_all_skills,name="get all skills"),
@@ -15,4 +15,5 @@ urlpatterns = [
     path("post-super-skill-temp/", views_temp.post_super_skill_temp,name="post temp super skill"),
     path("get-all-skills-temp/", views_temp.get_all_skills,name="get all skills"),
     path("get-all-super-skills-temp/", views_temp.get_all_super_skills,name="get all super skills"),
+    path("post-user-message/",views_user.post_user_message, name="post user message"),
 ]
