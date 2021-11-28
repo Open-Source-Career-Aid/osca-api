@@ -65,7 +65,7 @@ def post_skill(request):
                     top.resources.add(res)
                     top.save()
             except KeyError:
-                None   
+                pass
             lev.topics.add(top)
             try:
                 for y in topic['subtopics']:
@@ -73,7 +73,7 @@ def post_skill(request):
                     sub = Subtopic(value=val)
                     sub.save()
                     for yres in y['resources']:
-                        res = Resource(link=yres['value'])
+                        res = Resource(link=yres['link'])
                         res.save()
                         sub.resources.add(res)
                         sub.save()
