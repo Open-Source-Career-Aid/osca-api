@@ -27,7 +27,8 @@ def post_skill(request):
     user.save()
 
     skill_name = data['skill']
-    skill = Skill(contributed_by=user, skill=skill_name)
+    skill_language = data['language']
+    skill = Skill(contributed_by=user, skill=skill_name, language=skill_language)
     skill.save()
 
     for tag in data['tags']:

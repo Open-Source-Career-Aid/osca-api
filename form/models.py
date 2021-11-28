@@ -66,6 +66,7 @@ class User(models.Model):
 class Skill(models.Model):
     contributed_by = models.ForeignKey(User, on_delete=models.CASCADE)
     skill = models.CharField(max_length=50, blank=True)
+    language = models.CharField(max_length=30,blank=True)
     prerequisites = models.ManyToManyField(
         Prerequisite, related_name="all_skills_with_this_prerequisite", blank=True)
     tags = models.ManyToManyField(
