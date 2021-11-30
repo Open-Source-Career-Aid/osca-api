@@ -39,31 +39,11 @@ class Topic(models.Model):
     topicName = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_topic", blank=True)
-    subtopics = models.ManyToManyField(
+    topic = models.ManyToManyField(
         Subtopic, related_name="subtopics_topic", blank=True)
 
     def __str__(self):
         return self.topicName
-
-
-class Level(models.Model):
-    levelName = models.TextField(blank=True)
-    topics = models.ManyToManyField(
-        Topic,related_name="topics_level", blank=True)
-    
-    def __str__(self):
-        return self.levelName
-
-class User(models.Model):
-    userName = models.CharField(max_length=50, blank=True)
-    organization_name = models.CharField(max_length=50, blank=True)
-    branch_name = models.CharField(max_length=50, blank=True)
-    program_duration = models.CharField(max_length=12, blank=True)
-    show = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.userName
-
 
 class Skill(models.Model):
     contributed_by = models.ForeignKey(User, on_delete=models.CASCADE)
