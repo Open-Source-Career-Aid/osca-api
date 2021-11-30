@@ -54,8 +54,8 @@ class Skill(models.Model):
         Prerequisite, related_name="all_skills_with_this_prerequisite", blank=True)
     tags = models.ManyToManyField(
         Tag, related_name="all_skills_with_this_tag", blank=True)
-    levels = models.ManyToManyField(
-        Level, related_name="all_skills_with_this_level", blank=True)
+    topics = models.ManyToManyField(
+        Topic, related_name="all_skills_with_this_topic", blank=True)
 
     def __str__(self):
         return self.skill
