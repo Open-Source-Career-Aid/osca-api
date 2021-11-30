@@ -14,7 +14,7 @@ def post_user_message(request):
     user_name = data['name']
     user_email = data['email']
     user_message =  data['message']
-    message = User_messages(name=user_name, email=user_email, message=user_email)
+    message = User_messages(name=user_name, email=user_email, message=user_message)
 
     message.save("user")
     return Response(status=status.HTTP_201_CREATED)
