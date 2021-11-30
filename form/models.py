@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import DefaultConnectionProxy, models
 
 # Create your models here.
 
@@ -19,6 +19,8 @@ class Prerequisite(models.Model):
 
 class Resource(models.Model):
     link = models.TextField(blank=True)
+    thumbsup = models.IntegerField(default=0)
+    thumbsdown = models.IntegerField(default=0)
 
     def __str__(self):
         return self.link
