@@ -1,4 +1,5 @@
 from django.db import models
+from vote.models import VoteModel
 
 # Create your models here.
 
@@ -17,7 +18,7 @@ class Prerequisite(models.Model):
         return self.prereqName
 
 
-class Resource(models.Model):
+class Resource(VoteModel, models.Model):
     link = models.TextField(blank=True)
 
     def __str__(self):

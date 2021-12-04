@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'form',
     'rest_framework',
     'rest_framework.authtoken',
+    'vote'
 ]
 
 REST_FRAMEWORK = {
