@@ -1,8 +1,32 @@
 from django.db import models
+# from django.db.models.base import _Self
 from vote.models import VoteModel
-
+from django.db.models import Sum
 # Create your models here.
 
+class User(models.Model):
+    userName = models.CharField(max_length=50, blank=True)
+    organization_name = models.CharField(max_length=50, blank=True)
+    branch_name = models.CharField(max_length=50, blank=True)
+    program_duration = models.CharField(max_length=12, blank=True)
+    show = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.userName
+
+
+
+class Vote(models.Model):
+    like = models.IntegerField(blank=True, default=0)
+    dislike = models.IntegerField(blank=True, default=0)
+    user = models.ForeignKey(User, blank=True, on_delete=models.PROTECT)
+    
+    @property
+    def vote_score(self):
+        return self.like - self.dislike 
+
+    def __str__(self):
+        return str(self.vote_score)
 
 class Tag(models.Model):
     tagName = models.CharField(max_length=50, blank=True)
@@ -18,9 +42,10 @@ class Prerequisite(models.Model):
         return self.prereqName
 
 
-class Resource(VoteModel, models.Model):
+class Resource( models.Model):
     link = models.TextField(blank=True)
-
+    vote = models.OneToOneField(Vote, related_name="vote_resource", blank=True, on_delete=models.PROTECT)
+    
     def __str__(self):
         return self.link
 
@@ -29,7 +54,8 @@ class Subtopic(models.Model):
     value = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_subtopic", blank=True)
-
+    vote = models.OneToOneField(Vote, related_name="vote_subtopic", blank=True, on_delete=models.PROTECT)
+    
     def __str__(self):
         return self.value
 
@@ -40,7 +66,8 @@ class Topic(models.Model):
         Resource, related_name="resources_topic", blank=True)
     subtopics = models.ManyToManyField(
         Subtopic, related_name="subtopics_topic", blank=True)
-
+    vote = models.OneToOneField(Vote, related_name="vote_topic", blank=True, on_delete=models.PROTECT)
+    
     def __str__(self):
         return self.topicName
 
@@ -53,15 +80,6 @@ class Level(models.Model):
     def __str__(self):
         return self.levelName
 
-class User(models.Model):
-    userName = models.CharField(max_length=50, blank=True)
-    organization_name = models.CharField(max_length=50, blank=True)
-    branch_name = models.CharField(max_length=50, blank=True)
-    program_duration = models.CharField(max_length=12, blank=True)
-    show = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.userName
 
 
 class Skill(models.Model):
