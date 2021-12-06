@@ -8,6 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 from .models import *
 from .serializers import *
 from json import loads
+from django.db.models import F
+
+
 # import json
 
 # Create your views here.
@@ -53,16 +56,21 @@ def post_skill(request):
 
     for level in data['levels']:
         val = level['levelName']
+        # temp1_vote = Vote()
         lev = Level(levelName=val)
         lev.save()
         
         for topic in level['topics']:
             val = topic['topicName']
-            top = Topic(topicName=val)
+            temp2_vote = Vote()
+            top = Topic(topicName=val, topic_vote= temp2_vote)
+            temp2_vote.save()
             top.save()
             try:
                 for resource in topic['resources']:
-                    res = Resource(link=resource['link'])
+                    temp3_vote = Vote()
+                    res = Resource(link=resource['link'], resource_vote = temp3_vote)
+                    temp3_vote.save()
                     res.save()
                     top.resources.add(res)
                     top.save()
@@ -71,11 +79,15 @@ def post_skill(request):
             lev.topics.add(top)
             try:
                 for y in topic['subtopics']:
+                    temp4_vote = Vote()
                     val = y['value']
-                    sub = Subtopic(value=val)
+                    sub = Subtopic(value=val, subtopic_vote=temp4_vote)
+                    temp4_vote.save()
                     sub.save()
                     for yres in y['resources']:
-                        res = Resource(link=yres['link'])
+                        temp5_vote = Vote()
+                        res = Resource(link=yres['link'], resource_vote = temp5_vote)
+                        temp5_vote.save()
                         res.save()
                         sub.resources.add(res)
                         sub.save()
@@ -201,3 +213,64 @@ def learn_skill(request):
         return Response(serialized_data)
     return Response(status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['POST'])
+def post_vote_resource(request):
+    data = request.data
+    upvote_or_downvote = data['type']
+    id_obj = data['id']
+    vote_obj = Resource.objects.get(id=id_obj)
+    
+    # print(vote_obj)
+    if(upvote_or_downvote == 1):
+        vote_obj.like = vote_obj.like + 1
+    else:
+        vote_obj.dislike = vote_obj.dislike + 1
+    vote_obj.save()
+
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def post_vote_subtopic(request):
+    data = request.data
+    upvote_or_downvote = data['type']
+    id_obj = data['id']
+    vote_obj = Subtopic.objects.get(id=id_obj)
+    
+    # print(vote_obj)
+    if(upvote_or_downvote == 1):
+        vote_obj.like = vote_obj.like + 1
+    else:
+        vote_obj.dislike = vote_obj.dislike + 1
+    vote_obj.save()
+
+    return Response(status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def post_vote_topic(request):
+    data = request.data
+    upvote_or_downvote = data['type']
+    id_obj = data['id']
+    vote_obj = Topic.objects.get(id=id_obj)
+    
+    # print(vote_obj)
+    if(upvote_or_downvote == 1):
+        vote_obj.like = vote_obj.like + 1
+    else:
+        vote_obj.dislike = vote_obj.dislike + 1
+    vote_obj.save()
+
+    return Response(status=status.HTTP_201_CREATED)
+
+
+
+@api_view(['GET'])
+def get_votes(request):
+    votes = Vote.objects.all()
+    serialized_data = VoteSerializer(votes, many=True)
+    return Response(serialized_data.data)
+
+@api_view(['GET'])
+def get_resources(request):
+    votes = Resource.objects.all()
+    serialized_data = ResourceSerializer(votes, many=True)
+    return Response(serialized_data.data)
