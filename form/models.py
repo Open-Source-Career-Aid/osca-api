@@ -17,9 +17,10 @@ class User(models.Model):
 
 
 class Vote(models.Model):
+    # vote_id = models.AutoField(primary_key=True)
     like = models.IntegerField(blank=True, default=0)
     dislike = models.IntegerField(blank=True, default=0)
-    user = models.ForeignKey(User, blank=True, on_delete=models.PROTECT)
+    # user = models.OneToOneField(User, blank=True, on_delete=models.PROTECT)
     
     @property
     def vote_score(self):
@@ -42,31 +43,31 @@ class Prerequisite(models.Model):
         return self.prereqName
 
 
-class Resource( models.Model):
+class Resource(Vote):
     link = models.TextField(blank=True)
-    vote = models.OneToOneField(Vote, related_name="vote_resource", blank=True, on_delete=models.PROTECT)
+    resource_vote = models.OneToOneField(Vote,default=0, related_name="vote_resource", parent_link=True, blank=True, on_delete=models.PROTECT)
     
     def __str__(self):
         return self.link
 
 
-class Subtopic(models.Model):
+class Subtopic(Vote):
     value = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_subtopic", blank=True)
-    vote = models.OneToOneField(Vote, related_name="vote_subtopic", blank=True, on_delete=models.PROTECT)
+    subtopic_vote = models.OneToOneField(Vote, default=0, related_name="vote_subtopic",parent_link=True, blank=True, on_delete=models.PROTECT)
     
     def __str__(self):
         return self.value
 
 
-class Topic(models.Model):
+class Topic(Vote):
     topicName = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_topic", blank=True)
     subtopics = models.ManyToManyField(
         Subtopic, related_name="subtopics_topic", blank=True)
-    vote = models.OneToOneField(Vote, related_name="vote_topic", blank=True, on_delete=models.PROTECT)
+    topic_vote = models.OneToOneField(Vote,default=0 , related_name="vote_topic",parent_link=True, blank=True, on_delete=models.PROTECT)
     
     def __str__(self):
         return self.topicName

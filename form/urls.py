@@ -16,4 +16,10 @@ urlpatterns = [
     path("get-all-skills-temp/", views_temp.get_all_skills,name="get all skills"),
     path("get-all-super-skills-temp/", views_temp.get_all_super_skills,name="get all super skills"),
     path("post-user-message/",views_user.post_user_message, name="post user message"),
+    path("post-resource-vote/",views.post_vote_resource, name="post resource vote"),
+    path("post-subtopic-vote/",views.post_vote_subtopic, name="post subtopic vote"),
+    path("post-topic-vote/",views.post_vote_topic, name="post topic vote"),
+    path("get-all-votes/", views.get_votes, name="get all votes"),
+    path("get-all-resources/", views.get_resources, name="get all resources"),
+
 ]
