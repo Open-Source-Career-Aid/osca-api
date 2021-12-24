@@ -1,33 +1,7 @@
 from django.db import models
-# from django.db.models.base import _Self
-from vote.models import VoteModel
-from django.db.models import Sum
+
 # Create your models here.
 
-class User(models.Model):
-    userName = models.CharField(max_length=50, blank=True)
-    organization_name = models.CharField(max_length=50, blank=True)
-    branch_name = models.CharField(max_length=50, blank=True)
-    program_duration = models.CharField(max_length=12, blank=True)
-    show = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.userName
-
-
-
-class Vote(models.Model):
-    # vote_id = models.AutoField(primary_key=True)
-    like = models.IntegerField(blank=True, default=0)
-    dislike = models.IntegerField(blank=True, default=0)
-    # user = models.OneToOneField(User, blank=True, on_delete=models.PROTECT)
-    
-    @property
-    def vote_score(self):
-        return self.like - self.dislike 
-
-    def __str__(self):
-        return str(self.vote_score)
 
 class Tag(models.Model):
     tagName = models.CharField(max_length=50, blank=True)
@@ -42,33 +16,39 @@ class Prerequisite(models.Model):
     def __str__(self):
         return self.prereqName
 
-
-class Resource(Vote):
-    link = models.TextField(blank=True)
-    resource_vote = models.OneToOneField(Vote,default=0, related_name="vote_resource", parent_link=True, blank=True, on_delete=models.PROTECT)
+class Vote(models.Model):
+    voter_email = models.CharField(max_length=50, blank=True)
     
+
+    def __str__(self):
+        return self.voter_email
+
+class Resource(models.Model):
+    link = models.TextField(blank=True)
+    up_vote = models.ForeignKey(Vote, null=True, blank=True, on_delete=models.CASCADE, related_name='up_vote')
+    down_vote = models.ForeignKey(Vote, null=True, blank=True, on_delete=models.CASCADE, related_name='down_vote')
+    vote_score = models.IntegerField(default=0, blank=True)
+
     def __str__(self):
         return self.link
 
 
-class Subtopic(Vote):
+class Subtopic(models.Model):
     value = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_subtopic", blank=True)
-    subtopic_vote = models.OneToOneField(Vote, default=0, related_name="vote_subtopic",parent_link=True, blank=True, on_delete=models.PROTECT)
-    
+
     def __str__(self):
         return self.value
 
 
-class Topic(Vote):
+class Topic(models.Model):
     topicName = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_topic", blank=True)
     subtopics = models.ManyToManyField(
         Subtopic, related_name="subtopics_topic", blank=True)
-    topic_vote = models.OneToOneField(Vote,default=0 , related_name="vote_topic",parent_link=True, blank=True, on_delete=models.PROTECT)
-    
+
     def __str__(self):
         return self.topicName
 
@@ -81,6 +61,15 @@ class Level(models.Model):
     def __str__(self):
         return self.levelName
 
+class User(models.Model):
+    userName = models.CharField(max_length=50, blank=True)
+    organization_name = models.CharField(max_length=50, blank=True)
+    branch_name = models.CharField(max_length=50, blank=True)
+    program_duration = models.CharField(max_length=12, blank=True)
+    show = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.userName
 
 
 class Skill(models.Model):

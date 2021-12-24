@@ -9,12 +9,6 @@ class ResourceSerializer(serializers.ModelSerializer):
         model = Resource
         fields='__all__'
 
-class VoteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Vote
-        fields='__all__'
-
-
 class SubtopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subtopic
