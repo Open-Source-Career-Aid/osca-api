@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-(@46wmg3cuhjb6@rzibypbnxa=s&su(nr=o1%go^1lz$4ui)8c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'oscaweb.herokuapp.com', '0.0.0.0','osca-api.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'oscaweb.herokuapp.com', '0.0.0.0','osca-api.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'form',
     'rest_framework',
     'rest_framework.authtoken',
-    'vote'
+    'vote',
+    'ordered_model'
 ]
 
 REST_FRAMEWORK = {
@@ -161,6 +162,8 @@ except ImportError as e:
 }
     import django_heroku
     django_heroku.settings(locals(), databases=False)
+
+
 
 
 # Password validation

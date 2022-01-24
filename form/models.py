@@ -2,6 +2,7 @@ from django.db import models
 # from django.db.models.base import _Self
 from vote.models import VoteModel
 from django.db.models import Sum
+from ordered_model.models import OrderedModel
 # Create your models here.
 
 class User(models.Model):
@@ -29,14 +30,14 @@ class Vote(models.Model):
     def __str__(self):
         return str(self.vote_score)
 
-class Tag(models.Model):
-    tagName = models.CharField(max_length=50, blank=True)
+class Tag(OrderedModel):
+    tagName = models.CharField(max_length=50, blank=True, default="")
 
     def __str__(self):
         return self.tagName
 
 
-class Prerequisite(models.Model):
+class Prerequisite(OrderedModel):
     prereqName = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
@@ -51,7 +52,7 @@ class Resource(Vote):
         return self.link
 
 
-class Subtopic(Vote):
+class Subtopic(OrderedModel,Vote):
     value = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_subtopic", blank=True)
@@ -61,7 +62,7 @@ class Subtopic(Vote):
         return self.value
 
 
-class Topic(Vote):
+class Topic(OrderedModel, Vote):
     topicName = models.TextField(blank=True)
     resources = models.ManyToManyField(
         Resource, related_name="resources_topic", blank=True)
@@ -83,7 +84,7 @@ class Level(models.Model):
 
 
 
-class Skill(models.Model):
+class Skill(OrderedModel):
     contributed_by = models.ForeignKey(User, on_delete=models.CASCADE)
     skill = models.CharField(max_length=50, blank=True)
     language = models.CharField(max_length=30,blank=True)
@@ -92,13 +93,12 @@ class Skill(models.Model):
     tags = models.ManyToManyField(
         Tag, related_name="all_skills_with_this_tag", blank=True)
     levels = models.ManyToManyField(
-        Level, related_name="all_skills_with_this_level", blank=True)
-
+        Level, related_name="all_skills_with_this_level", blank=True) 
     def __str__(self):
         return self.skill
 
 
-class Super_skill(models.Model):
+class Super_skill(OrderedModel):
     contributed_by = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, blank=True)
     tags = models.ManyToManyField(
@@ -107,7 +107,6 @@ class Super_skill(models.Model):
         Skill, related_name="super_skill", blank=True)
     prerequisites = models.ManyToManyField(
         Prerequisite, related_name="all_super_skills_with_this_prerequisite", blank=True)
-
     def __str__(self):
         return self.name
 
@@ -124,7 +123,7 @@ class Super_skill_edit(models.Model):
         return self.name
 
 
-class User_messages(models.Model):
+class User_messages(OrderedModel):
     name = models.CharField(max_length=50,blank=True)
     email = models.EmailField(max_length=50,blank=True)
     message = models.TextField(blank=True)
