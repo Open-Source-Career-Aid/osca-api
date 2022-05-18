@@ -60,7 +60,7 @@ class SuperSkillNameSerializer(serializers.ModelSerializer):
     sub_skill= RelationalSubSkillSerializer(source="sub_skills",read_only=True, many=True)
     class Meta:
         model = Super_skill
-        fields = ['id','name','tag','sub_skill']
+        fields = ['id','name','tag','sub_skills']
 
 class SuperSkillNameSerializer2(serializers.ModelSerializer):
     class Meta:
